@@ -35,10 +35,7 @@ pub fn scan_directory(dir: &Path) -> Result<HashMap<PathBuf, FileEntry>> {
             let relative_path = absolute_path
                 .strip_prefix(&canonical_dir)
                 .map_err(|_| {
-                    RuddError::IoError(std::io::Error::new(
-                        std::io::ErrorKind::Other,
-                        "Failed to compute relative path",
-                    ))
+                    RuddError::IoError(std::io::Error::other("Failed to compute relative path"))
                 })?
                 .to_path_buf();
 
