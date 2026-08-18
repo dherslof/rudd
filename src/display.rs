@@ -98,6 +98,36 @@ pub fn display_diff(
         }
     }
 
+    // Files with different content
+    if !diff.different_content.is_empty() {
+        println!(
+            "\n{}",
+            format!(
+                "━ Different content ({} files)",
+                diff.different_content.len()
+            )
+            .red()
+            .bold()
+        );
+        for (main_entry, compare_entry) in &diff.different_content {
+            println!(
+                "  {} {}",
+                "!".red(),
+                main_entry.relative_path.display().to_string().red()
+            );
+            if options.verbose {
+                println!(
+                    "    main: {}",
+                    main_entry.absolute_path.display().to_string().dimmed()
+                );
+                println!(
+                    "    cmp : {}",
+                    compare_entry.absolute_path.display().to_string().dimmed()
+                );
+            }
+        }
+    }
+
     // Final status
     println!("\n{}", "=".repeat(80).bright_blue());
     if diff.has_differences() {
@@ -142,6 +172,10 @@ fn print_summary(diff: &DirectoryDiff) {
     }
 
     println!("  Common files: {}", diff.in_both.len().to_string().white());
+    println!(
+        "  Different content: {}",
+        diff.different_content.len().to_string().red()
+    );
 }
 
 #[cfg(test)]
@@ -154,6 +188,7 @@ mod tests {
         FileEntry {
             relative_path: PathBuf::from(rel_path),
             absolute_path: PathBuf::from(abs_path),
+            md5: None,
         }
     }
 
@@ -173,6 +208,7 @@ mod tests {
             only_in_main: vec![create_file_entry("test.txt", "/main/test.txt")],
             only_in_compare: vec![],
             in_both: vec![],
+            different_content: vec![],
         };
 
         let options = DisplayOptions {
