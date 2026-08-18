@@ -13,11 +13,12 @@ Using `$ diff --recursive --brief directory1 directory2` will also solve it, but
 - Get delta in files between two directories
 - Colorful, east-to-read/easy-to-understand output
 - Verbose mode
+- Optional MD5 content comparison for common paths
 
 ## Usage
 
 ```sh
-rudd <MAIN_DIR> <COMPARE_DIR> [--verbose] [--diff-only]
+rudd <MAIN_DIR> <COMPARE_DIR> [--verbose] [--diff-only] [--md5]
 
 # Detailed help
 rudd -h

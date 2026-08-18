@@ -27,7 +27,7 @@ pub struct Cli {
     pub diff_only: bool,
 
     // Placeholders for future features
-    /// Compare file contents using MD5 checksums (not yet implemented)
+    /// Compare file contents using MD5 checksums
     #[arg(long)]
     pub md5: bool,
     // Perform detailed content diff, not sure how to do this yet (or if it's wanted...)

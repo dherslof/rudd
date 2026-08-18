@@ -5,12 +5,6 @@ use std::process;
 fn main() {
     let args = Cli::parse_args();
 
-    // Check for unimplemented features
-    if args.md5 {
-        eprintln!("Warning: --md5 flag is not yet implemented");
-        todo!("MD5 comparison not implemented");
-    }
-
     // Run the comparison
     if let Err(e) = run(args) {
         eprintln!("Error: {}", e);
@@ -20,11 +14,11 @@ fn main() {
 
 fn run(args: Cli) -> rudd::Result<()> {
     // Scan both directories
-    let main_files = scan_directory(&args.main_dir)?;
-    let compare_files = scan_directory(&args.compare_dir)?;
+    let main_files = scan_directory(&args.main_dir, args.md5)?;
+    let compare_files = scan_directory(&args.compare_dir, args.md5)?;
 
     // Compute the diff
-    let diff = diff_directories(main_files, compare_files);
+    let diff = diff_directories(main_files, compare_files, args.md5);
 
     // Display results
     let display_options = DisplayOptions {
